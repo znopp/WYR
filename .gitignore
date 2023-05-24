@@ -1,0 +1,6 @@
+.idea/
+*.pdn
+*.png
+*.pyc
+*.log
+.env
