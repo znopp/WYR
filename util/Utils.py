@@ -47,21 +47,22 @@ async def handle_button_click(interaction: discord.Interaction, button: discord.
             await interaction.response.send_message(f"Changing result to the {label_text}", ephemeral=True)
             user_id_list[user_id] = button_label.lower()
     else:
-        await interaction.response.send_message(f"Your ID is {user_id},"
-                                                f" and you voted for the {label_text}!", ephemeral=True)
+        await interaction.response.send_message(f"You voted for the {label_text}!", ephemeral=True)
         user_id_list[user_id] = button_label.lower()
 
-    print(user_id_list)
+    # print(user_id_list) (for debug purposes)
 
 
 class ButtonClass(discord.ui.View):
     def __init__(self):
         super().__init__()
 
+    # Button 1, named First Option
     @discord.ui.button(label="First Option", style=discord.ButtonStyle.blurple)
     async def first_option_click(self, interaction: discord.Interaction, button: discord.ui.Button):
         await handle_button_click(interaction, button)
 
+    # Button 2, named Second Option
     @discord.ui.button(label="Second Option", style=discord.ButtonStyle.red)
     async def second_option_click(self, interaction: discord.Interaction, button: discord.ui.Button):
         await handle_button_click(interaction, button)
@@ -90,9 +91,16 @@ async def tallying(remaining_strings, shuffled_strings_2):
     total = tallying_1 + tallying_2
 
     tallying_embed = discord.Embed(title="The results are in!", color=0xda005d)
-    tallying_embed.description = f"{tallying_1} or {(tallying_1 / total) * 100}% " \
-                                 f"of people voted for {remaining_strings[0]}, while " \
-                                 f"{tallying_2} or {(tallying_2 / total) * 100}% " \
-                                 f"of people voted for {shuffled_strings_2[0]}!"
+
+    if total != 0:
+        tallying_embed.description = f"{tallying_1} or {(tallying_1 / total) * 100}% " \
+                                     f"of people voted for {remaining_strings[0]}, while " \
+                                     f"{tallying_2} or {(tallying_2 / total) * 100}% " \
+                                     f"of people voted for {shuffled_strings_2[0]}!"
+
+    else:
+        tallying_embed.description = "Nobody voted! :("
+
+    user_id_list.clear()
 
     return tallying_embed

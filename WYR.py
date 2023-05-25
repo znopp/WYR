@@ -47,17 +47,30 @@ async def on_message(message):
 
     # Only send if there's been >= 5 messages in the channel and time since last bot message was >= 5 minutes
     if message_counts[channel_id] == 5 and (channel_id not in last_message_times
-                                            or current_time - last_message_times[channel_id] >= 10):
-        # Actual message
+                                            or current_time - last_message_times[channel_id] >= 20):
 
+        # is there a bug?!?!??
+
+
+        print(last_message_times[channel_id])
+
+        # Actual message below vvv
+
+        # Relevant variables from Utils.embed as well as other called functions
         embed, view, remaining_strings, shuffled_strings_2 = await Utils.embed()
 
+        # Sending the initial embed
         sent_msg = await message.channel.send(embed=embed, view=view)
 
+        # Deleting it after x seconds
         await asyncio.sleep(10)
         await sent_msg.delete()
+
+        # Sending embed with results from vote
         tally_embed = await Utils.tallying(remaining_strings=remaining_strings, shuffled_strings_2=shuffled_strings_2)
         sent_tally = await message.channel.send(embed=tally_embed)
+
+        # Deleting it after x seconds
         await asyncio.sleep(10)
         await sent_tally.delete()
 
@@ -70,7 +83,7 @@ async def on_message(message):
         return
 
     # Store the user ID and timestamp of the message
-    print(last_message_times)
+    # print(last_message_times) (for debug purposes)
 
 
 load_dotenv()
