@@ -17,10 +17,13 @@ until all other questions have been sent
 AND if the time since the bots last message is over x minutes
 
 
-- [ ] WYR question will be an embed with 2 buttons, one for each option.
+- [x] WYR question will be an embed with 2 buttons, one for each option.
 
-  - [ ] Message will be deleted after x seconds, new message will send showing
+  - [x] Message will be deleted after x seconds, new message will send showing
   total voters, how many votes for each option, and results in percentages.
+
+
+- [ ] Import a lot of WYR questions... somehow
 
     
 ## Potential Future Features
