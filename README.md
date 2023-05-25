@@ -9,11 +9,11 @@ bot market: Something that doesn't require user intervention to work!
 
 ## Planned Features
 
-- [ ] Randomly send a question, but don't send it again
+- [x] Randomly send a question, but don't send it again
 until all other questions have been sent
 
 
-- [ ] Automatically sends a question if there have been x messages sent since the previous question
+- [x] Automatically sends a question if there have been x messages sent since the previous question
 AND if the time since the bots last message is over x minutes
 
 
