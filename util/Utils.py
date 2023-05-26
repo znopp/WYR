@@ -81,6 +81,7 @@ async def embed():
     msg_embed = discord.Embed(title="Would you rather..?", color=0xda005d)
     string_to_send, part_1, part_2 = send_random_string()
     msg_embed.description = string_to_send
+    msg_embed.set_footer(text="For help with issues, contact Nik#9121")
 
     view = ButtonClass(part_1, part_2)
 
@@ -106,9 +107,12 @@ async def tallying(part_1, part_2):
                                      f"of people voted for {part_1}, while " \
                                      f"{tallying_2} or {(tallying_2 / total) * 100}% " \
                                      f"of people voted for {part_2}!"
+        
+        tallying_embed.set_footer(text="For help with issues, contact Nik#9121")
 
     else:
         tallying_embed.description = "Nobody voted! :("
+        tallying_embed.set_footer(text="For help with issues, contact Nik#9121")
 
     user_id_list.clear()
 
