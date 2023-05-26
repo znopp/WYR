@@ -1,84 +1,93 @@
 import datetime
+import json
 import random
 import discord
 
-strings = ["Never sleep", "Be the richest person alive"]
-strings_2 = ["Never eat", "Be immortal forever"]
-
-used_strings = []
 user_id_list = {}
+
+now = datetime.datetime.now().strftime('%H:%M:%S')
+
+with open("json/questions.json") as file:
+    data = json.load(file)
 
 
 def send(user_input):
-    print(f"[INFO] - {datetime.datetime.now().strftime('%H:%M:%S')} - " + user_input)
+    print(f"[INFO] - {now} - " + user_input)
+
+
+def error(user_input):
+    print(f"[ERROR] - {now} - " + user_input)
 
 
 def send_random_string():
-    if len(used_strings) == len(strings):
-        used_strings.clear()
-        # All strings have been sent, clear the sent_strings list
 
-    # Get the remaining unsent strings
-    remaining_strings = list(set(strings) - set(used_strings))
-    # Shuffle the remaining strings
-    random.shuffle(remaining_strings)
-    shuffled_strings_2 = [strings_2[strings.index(string)] for string in remaining_strings]
+    random.shuffle(data)
+
+    first_array = data[0]
+
+    part_1 = first_array[0]
+
+    part_2 = first_array[1]
 
     # Select the first string from the shuffled list
-    string_to_send = f"{remaining_strings[0]} or {shuffled_strings_2[0].lower()}"
-    # Add the sent string to the sent_strings list
-    used_strings.append(string_to_send)
+    string_to_send = f"{part_1} or {part_2.lower()}"
 
-    return string_to_send, remaining_strings, shuffled_strings_2
+    return string_to_send, part_1, part_2
 
 
-async def handle_button_click(interaction: discord.Interaction, button: discord.ui.Button):
+async def handle_button_click(interaction: discord.Interaction, button: discord.ui.Button, part_1, part_2):
 
     user_id = interaction.user.id
-    button_label = button.label
 
-    label_text = button_label[0] + button_label[1:].lower()
+    if button.label == "First Option":
+        button_label = part_1
+    else:
+        button_label = part_2
+
+    label_text = button_label
 
     if user_id in user_id_list:
         previous_button = user_id_list[user_id]
         if previous_button == button_label.lower():
             await interaction.response.send_message("You have already pressed this button!", ephemeral=True)
         else:
-            await interaction.response.send_message(f"Changing result to the {label_text}", ephemeral=True)
+            await interaction.response.send_message(f"Changing result to {label_text}!", ephemeral=True)
             user_id_list[user_id] = button_label.lower()
     else:
-        await interaction.response.send_message(f"You voted for the {label_text}!", ephemeral=True)
+        await interaction.response.send_message(f"You voted for {label_text}!", ephemeral=True)
         user_id_list[user_id] = button_label.lower()
 
     # print(user_id_list) (for debug purposes)
 
 
 class ButtonClass(discord.ui.View):
-    def __init__(self):
+    def __init__(self, part_1, part_2):
         super().__init__()
+        self.part_1 = part_1
+        self.part_2 = part_2
 
     # Button 1, named First Option
     @discord.ui.button(label="First Option", style=discord.ButtonStyle.blurple)
     async def first_option_click(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await handle_button_click(interaction, button)
+        await handle_button_click(interaction, button, self.part_1, self.part_2)
 
     # Button 2, named Second Option
     @discord.ui.button(label="Second Option", style=discord.ButtonStyle.red)
     async def second_option_click(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await handle_button_click(interaction, button)
+        await handle_button_click(interaction, button, self.part_1, self.part_2)
 
 
 async def embed():
     msg_embed = discord.Embed(title="Would you rather..?", color=0xda005d)
-    string_to_send, remaining_strings, shuffled_strings_2 = send_random_string()
+    string_to_send, part_1, part_2 = send_random_string()
     msg_embed.description = string_to_send
 
-    view = ButtonClass()
+    view = ButtonClass(part_1, part_2)
 
-    return msg_embed, view, remaining_strings, shuffled_strings_2
+    return msg_embed, view, part_1, part_2
 
 
-async def tallying(remaining_strings, shuffled_strings_2):
+async def tallying(part_1, part_2):
     tallying_1 = 0
     tallying_2 = 0
 
@@ -94,9 +103,9 @@ async def tallying(remaining_strings, shuffled_strings_2):
 
     if total != 0:
         tallying_embed.description = f"{tallying_1} or {(tallying_1 / total) * 100}% " \
-                                     f"of people voted for {remaining_strings[0]}, while " \
+                                     f"of people voted for {part_1}, while " \
                                      f"{tallying_2} or {(tallying_2 / total) * 100}% " \
-                                     f"of people voted for {shuffled_strings_2[0]}!"
+                                     f"of people voted for {part_2}!"
 
     else:
         tallying_embed.description = "Nobody voted! :("
