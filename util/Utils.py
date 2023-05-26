@@ -11,12 +11,12 @@ with open("json/questions.json") as file:
     data = json.load(file)
 
 
-def send(user_input):
-    print(f"[INFO] - {now} - " + user_input)
+def send(user_input, prefix=""):
+    print(f"{prefix}[INFO] - {now} - " + user_input)
 
 
-def error(user_input):
-    print(f"[ERROR] - {now} - " + user_input)
+def error(user_input, prefix=""):
+    print(f"{prefix}[ERROR] - {now} - " + user_input)
 
 
 def send_random_string():

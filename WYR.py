@@ -64,10 +64,10 @@ async def on_ready():
     Utils.send(user_input=f"Sync operation took {elapsed_time} seconds")
 
     load_channels()
-    Utils.send(user_input="\nLoaded channels:")
+    Utils.send(user_input="Loaded channels:", prefix="\n")
 
     for channel in channels:
-        print(f"\"{client.get_channel(channel).name}\" with ID \"{channel}\"")
+        print(f"- \"{client.get_channel(channel).name}\" with ID \"{channel}\"")
 
 
 @client.tree.command(name="add_channel", description="WYR will be allowed in this channel")
