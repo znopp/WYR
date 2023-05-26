@@ -1,6 +1,7 @@
 import logging
 import time
 import discord
+from discord import app_commands
 from discord.ext import commands
 from util import Utils
 import os
@@ -99,20 +100,23 @@ async def command(interaction: discord.Interaction):
         await interaction.response.send_message("Channel already not in list!", ephemeral=True)
 
 
-@client.tree.command(name="add_question", description="Adds a question to WYR JSON list")
-async def add_question(interaction: discord.Interaction, string1: str, string2: str):
+# @discord.app_commands.command(name="add_question", description="Adds a question to WYR JSON list")
+@client.tree.command(name="add_question", description="Adds a question to WYR JSON list! "
+                                                      "Example: Never eat meat, Never drink milk")
+@app_commands.describe(part_1="Would you rather...", part_2="...Or...")
+async def add_question(interaction: discord.Interaction, part_1: str, part_2: str):
     if not interaction.user.guild_permissions.manage_channels:
         await interaction.response.send_message("You don't have permission to run this command!", ephemeral=True)
         return
 
     # formatting in case user did not
-    string1 = string1.lower()
-    string1 = string1[0].upper() + string1[1:]
+    part_1 = part_1.lower()
+    part_1 = part_1[0].upper() + part_1[1:]
 
-    string2 = string2.lower()
-    string2 = string2[0].upper() + string2[1:]
+    part_2 = part_2.lower()
+    part_2 = part_2[0].upper() + part_2[1:]
 
-    questions_data.append([string1, string2])
+    questions_data.append([part_1, part_2])
 
     with open("json/questions.json", "r+") as file:
 
