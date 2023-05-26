@@ -67,17 +67,20 @@ async def on_ready():
     Utils.send(user_input="Loaded channels:", prefix="\n")
 
     for channel in channels:
-        print(f"- \"{client.get_channel(channel).name}\" with ID \"{channel}\"")
+        print(f"\"{client.get_channel(channel).name}\" - {channel}")
 
 
 @client.tree.command(name="add_channel", description="WYR will be allowed in this channel")
-async def command(interaction: discord.Interaction):
+async def add_channel(interaction: discord.Interaction):
+
+    # if no permissions
     if not interaction.user.guild_permissions.manage_channels:
         await interaction.response.send_message("You don't have permission to run this command!", ephemeral=True)
         return
 
     channel_id = interaction.channel_id
     if channel_id not in channels:
+        Utils.send(user_input=f"Channel {client.get_channel(channel_id).name} with ID {channel_id} added!")
         channels.append(channel_id)
         await interaction.response.send_message("Channel added!", ephemeral=True)
         save_channels()
@@ -85,14 +88,35 @@ async def command(interaction: discord.Interaction):
         await interaction.response.send_message("Channel already added!", ephemeral=True)
 
 
+@client.tree.command(name="list_channels", description="Lists all currently active channels")
+async def list_channels(interaction: discord.Interaction):
+
+    if not interaction.user.guild_permissions.manage_channels:
+        await interaction.response.send_message("You don't have permission to run this command!", ephemeral=True)
+        return
+
+    # empty string
+    channel_list = ""
+
+    # iterate over all channels, append to string
+    for channel in channels:
+        channel_name = client.get_channel(channel).name
+        channel_list += f"\n\"{channel_name}\" - {channel}"
+
+    # send away and log
+    await interaction.response.send_message(f"All active channels:{channel_list}", ephemeral=True)
+    Utils.send(user_input="Displayed list of channels")
+
+
 @client.tree.command(name="remove_channel", description="WYR will not be allowed in this channel")
-async def command(interaction: discord.Interaction):
+async def remove_channel(interaction: discord.Interaction):
     if not interaction.user.guild_permissions.manage_channels:
         await interaction.response.send_message("You don't have permission to run this command!", ephemeral=True)
         return
 
     channel_id = interaction.channel_id
     if channel_id in channels:
+        Utils.send(user_input=f"Channel {client.get_channel(channel_id).name} with ID {channel_id} removed!")
         channels.remove(channel_id)
         await interaction.response.send_message("Channel removed!", ephemeral=True)
         save_channels()
