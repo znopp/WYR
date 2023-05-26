@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 import asyncio
 import json
 
-
 # discord.dev stuff needed to make the bot work properly
 intents = discord.Intents.default()
 intents.message_content = True
@@ -26,6 +25,7 @@ message_counts = {}
 last_message_times = {}
 
 channels_file = "json/channels.json"
+questions_data = Utils.data
 
 
 # all channels that the WYR bot will look and send embeds in
@@ -71,6 +71,10 @@ async def on_ready():
 
 @client.tree.command(name="add_channel", description="WYR will be allowed in this channel")
 async def command(interaction: discord.Interaction):
+    if not interaction.user.guild_permissions.manage_channels:
+        await interaction.response.send_message("You don't have permission to run this command!", ephemeral=True)
+        return
+
     channel_id = interaction.channel_id
     if channel_id not in channels:
         channels.append(channel_id)
@@ -82,6 +86,10 @@ async def command(interaction: discord.Interaction):
 
 @client.tree.command(name="remove_channel", description="WYR will not be allowed in this channel")
 async def command(interaction: discord.Interaction):
+    if not interaction.user.guild_permissions.manage_channels:
+        await interaction.response.send_message("You don't have permission to run this command!", ephemeral=True)
+        return
+
     channel_id = interaction.channel_id
     if channel_id in channels:
         channels.remove(channel_id)
@@ -89,6 +97,36 @@ async def command(interaction: discord.Interaction):
         save_channels()
     else:
         await interaction.response.send_message("Channel already not in list!", ephemeral=True)
+
+
+@client.tree.command(name="add_question", description="Adds a question to WYR JSON list")
+async def add_question(interaction: discord.Interaction, string1: str, string2: str):
+    if not interaction.user.guild_permissions.manage_channels:
+        await interaction.response.send_message("You don't have permission to run this command!", ephemeral=True)
+        return
+
+    # formatting in case user did not
+    string1 = string1.lower()
+    string1 = string1[0].upper() + string1[1:]
+
+    string2 = string2.lower()
+    string2 = string2[0].upper() + string2[1:]
+
+    questions_data.append([string1, string2])
+
+    with open("json/questions.json", "r+") as file:
+
+        lines = file.readlines()
+
+        if len(lines) >= 2:
+            file.seek(0, 2)
+            file.seek(file.tell() - 3, 0)
+            file.truncate()
+            file.write(",")
+
+        file.write("\n  " + json.dumps(questions_data[-1]) + "\n]")
+
+    await interaction.response.send_message("Question added!", ephemeral=True)
 
 
 @client.event
