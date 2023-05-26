@@ -32,6 +32,7 @@ AND if the time since the bots last message is over x minutes
   - Adding a channel to list of allowed channels the bot will send a message in
   - Removing a channel, for the same purpose.
   - Adding a WYR question to the JSON list
+  - Viewing all channels WYR will send embeds in
 
 
 - [x] Set permissions for slash commands
