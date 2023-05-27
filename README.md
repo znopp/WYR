@@ -11,7 +11,7 @@ bot market: Something that doesn't require user intervention to work!
 
 
 - [x] Automatically sends a random question if there have been x messages sent since the previous question
-AND if the time since the bots last message is over x minutes
+AND if the time since the bots last message is over x seconds
 
 
 - [x] WYR question will be an embed with 2 buttons, one for each option.
