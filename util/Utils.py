@@ -106,7 +106,8 @@ async def tallying(part_1, part_2):
         tallying_embed.description = f"{tallying_1} or {(tallying_1 / total) * 100}% " \
                                      f"of people voted for {part_1}, while " \
                                      f"{tallying_2} or {(tallying_2 / total) * 100}% " \
-                                     f"of people voted for {part_2}!"
+                                     f"of people voted for {part_2}!" \
+                                     f"All in all, {total} people voted on this question!"
 
         tallying_embed.set_footer(text="For help with issues, contact Nik#9121")
 
