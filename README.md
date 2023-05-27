@@ -4,7 +4,7 @@ Would you rather...?
 
 ---
 
-WYR is a Discord bot that attempts to fill a gap in the current
+WYR is a "Would You Rather" Discord bot that attempts to fill a gap in the current
 bot market: Something that doesn't require user intervention to work!
 
 ## Planned Features
