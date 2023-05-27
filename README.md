@@ -4,17 +4,14 @@ Would you rather...?
 
 ---
 
-WYR is a Discord bot that attempts to fill a gap in the current
+WYR is a "Would You Rather" Discord bot that attempts to fill a gap in the current
 bot market: Something that doesn't require user intervention to work!
 
 ## Planned Features
 
-- [x] Randomly send a question, but don't send it again
-until all other questions have been sent
 
-
-- [x] Automatically sends a question if there have been x messages sent since the previous question
-AND if the time since the bots last message is over x minutes
+- [x] Automatically sends a random question if there have been x messages sent since the previous question
+AND if the time since the bots last message is over x seconds
 
 
 - [x] WYR question will be an embed with 2 buttons, one for each option.
