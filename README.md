@@ -41,3 +41,9 @@ If you would like to see something added, make a request on Discord: Nik#9121
 ## Bugs to fix
 
 I hope this list stays empty forever.
+
+---
+
+## Invite link
+
+(This link allows only permission to send messages.)[https://discord.com/api/oauth2/authorize?client_id=1110905430219178043&permissions=2048&scope=bot]
