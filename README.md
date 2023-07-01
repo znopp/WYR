@@ -35,7 +35,7 @@ AND if the time since the bots last message is over x seconds
 - [x] Set permissions for slash commands
 
 For now, there are no other features planned.
-If you would like to see something added, make a request on Discord: Nik#9121
+If you would like to see something added, make a request on Discord: @znopp
 
 
 ## Bugs to fix
