@@ -47,3 +47,19 @@ I hope this list stays empty forever.
 ## Invite link
 
 [This link allows only permission to send messages.](https://discord.com/api/oauth2/authorize?client_id=1110905430219178043&permissions=2048&scope=bot)
+
+---
+
+## Example Images
+
+
+![Would you rather..?](https://github.com/znopp/WYR/assets/73614939/478ef440-6a73-43f2-9520-009884fa6780)
+
+
+![You voted for...](https://github.com/znopp/WYR/assets/73614939/46d18603-376b-4ea3-99be-bda6d9187de0)
+
+
+![You already pressed...](https://github.com/znopp/WYR/assets/73614939/ddf3c8ae-ad6c-4335-81ae-e2b8481f9f2a)
+
+
+![Changing result to...](https://github.com/znopp/WYR/assets/73614939/10d8baf9-9412-4aae-96ee-663dc350568e)
