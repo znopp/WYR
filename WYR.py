@@ -20,6 +20,7 @@ handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w'
 
 # local channel list, updated on slash command and on startup
 channels = []
+incorrect_channels = []
 
 # number of messages and timestamps, related to on_message function
 message_counts = {}
@@ -31,6 +32,7 @@ questions_data = Utils.data
 
 # all channels that the WYR bot will look and send embeds in
 def load_channels():
+    # todo fix removed channels break panik
     if os.path.exists(channels_file) and os.path.getsize(channels_file) > 0:
         with open(channels_file, "r") as file:
             try:
@@ -67,7 +69,16 @@ async def on_ready():
     Utils.send(user_input="Loaded channels:", prefix="\n")
 
     for channel in channels:
-        print(f"\"{client.get_channel(channel).name}\" - {channel}")
+        if not client.get_channel(channel):
+            incorrect_channels.append(channel)
+        else:
+            print(f"\"{client.get_channel(channel).guild.name}\""
+                  f" - \"{client.get_channel(channel).name}\""
+                  f" - {channel}")
+
+    for channel in incorrect_channels:
+        if channel in channels:
+            channels.remove(channel)
 
 
 @client.tree.command(name="add_channel", description="WYR will be allowed in this channel")
